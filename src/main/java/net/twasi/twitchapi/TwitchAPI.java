@@ -1,6 +1,6 @@
 package net.twasi.twitchapi;
 
-import net.twasi.twitchapi.auth.ApiCredentials;
+        import net.twasi.twitchapi.auth.ApiCredentials;
 
 public class TwitchAPI {
     private ApiCredentials credentials;
@@ -9,7 +9,11 @@ public class TwitchAPI {
         this.credentials = credentials;
     }
 
-    class Builder {
+    public ApiCredentials getCredentials() {
+        return this.credentials;
+    }
+
+    static class Builder {
         private ApiCredentials credentials;
 
         public Builder() {
@@ -22,7 +26,7 @@ public class TwitchAPI {
 
         public TwitchAPI build() {
             if (credentials == null) {
-                throw new RuntimeException("Credentials need to be provided before building.");
+                throw new RuntimeException("Credentials must be provided before building.");
             }
 
             return new TwitchAPI(credentials);
