@@ -1,0 +1,25 @@
+{
+  "_links": {},
+  "chatter_count": 7,
+  "chatters": {
+    "vips": [
+      "testvip"
+    ],
+    "moderators": [
+      "twasibot",
+      "testmoderator"
+    ],
+    "staff": [
+      "teststaff"
+    ],
+    "admins": [
+      "testadmin"
+    ],
+    "global_mods": [
+      "testglobalmod"
+    ],
+    "viewers": [
+      "testviewers"
+    ]
+  }
+}
