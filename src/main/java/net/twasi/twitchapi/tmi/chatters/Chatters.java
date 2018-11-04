@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class Chatters {
     private String type = "twasi.twitchapi.tmi.chatters";
-    Logger logger = Logger.getLogger(type);
+    private Logger logger = Logger.getLogger(type);
     private RestClient client;
 
     public Chatters(RestClient client) {
