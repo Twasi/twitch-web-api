@@ -12,23 +12,26 @@ public class DefaultRestClient implements RestClient {
 
     @Override
     public <T> RestClientResponse<T> get(Class clazz, String url) throws RequestException {
-
-        GetRequest request = Unirest.get(url);
-
-        return execute(request, clazz);
+        return get(clazz, url, new RequestOptions());
     }
 
     @Override
-    public <T> RestClientResponse<T> get(Class clazz, String url, String authValue) throws RequestException {
+    public <T> RestClientResponse<T> get(Class clazz, String url, RequestOptions options) throws RequestException {
 
         GetRequest request = Unirest.get(url);
-        request.header("Authorization", authValue);
+
+        options.apply(request);
 
         return execute(request, clazz);
     }
 
     @Override
     public <T> RestClientResponse<T> post(Class clazz, String url) throws RequestException {
+        return post(clazz, url, new RequestOptions());
+    }
+
+    @Override
+    public <T> RestClientResponse<T> post(Class clazz, String url, RequestOptions options) throws RequestException {
 
         HttpRequestWithBody request = Unirest.post(url);
 

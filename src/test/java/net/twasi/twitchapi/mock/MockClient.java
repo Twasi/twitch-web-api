@@ -2,6 +2,7 @@ package net.twasi.twitchapi.mock;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.twasi.twitchapi.exception.RequestException;
+import net.twasi.twitchapi.requests.RequestOptions;
 import net.twasi.twitchapi.requests.RestClient;
 import net.twasi.twitchapi.requests.RestClientResponse;
 
@@ -35,7 +36,7 @@ public class MockClient implements RestClient {
     }
 
     @Override
-    public <T> RestClientResponse<T> get(Class clazz, String url, String authValue) throws RequestException {
+    public <T> RestClientResponse<T> get(Class clazz, String url, RequestOptions options) throws RequestException {
         String path = jsonPath + "_get.json";
 
         return getResponse(path, clazz);
@@ -43,6 +44,13 @@ public class MockClient implements RestClient {
 
     @Override
     public <T> RestClientResponse<T> post(Class clazz, String url) throws RequestException {
+        String path = jsonPath + "_post.json";
+
+        return getResponse(path, clazz);
+    }
+
+    @Override
+    public <T> RestClientResponse<T> post(Class clazz, String url, RequestOptions options) throws RequestException {
         String path = jsonPath + "_post.json";
 
         return getResponse(path, clazz);

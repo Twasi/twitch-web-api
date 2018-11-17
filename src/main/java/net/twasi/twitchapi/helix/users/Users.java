@@ -6,6 +6,7 @@ import net.twasi.twitchapi.config.Constants;
 import net.twasi.twitchapi.exception.InvalidAuthContextException;
 import net.twasi.twitchapi.exception.RequestException;
 import net.twasi.twitchapi.helix.HelixResponseWrapper;
+import net.twasi.twitchapi.requests.RequestOptions;
 import net.twasi.twitchapi.requests.RestClient;
 import net.twasi.twitchapi.helix.users.response.*;
 import net.twasi.twitchapi.requests.RestClientResponse;
@@ -29,7 +30,7 @@ public class Users {
 
     public UserDTO getCurrentUser(String accessToken) {
         try {
-            RestClientResponse<HelixResponseWrapper<UserDTO>> response = client.get(UserDTO.WrappedUserDTO.class, Constants.HELIX_USERS, accessToken);
+            RestClientResponse<HelixResponseWrapper<UserDTO>> response = client.get(UserDTO.WrappedUserDTO.class, Constants.HELIX_USERS, new RequestOptions().withBearerToken(accessToken));
 
             return response.getResponse().getData().get(0);
         } catch (RequestException e) {

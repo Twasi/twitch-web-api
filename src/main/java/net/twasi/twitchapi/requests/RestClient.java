@@ -4,9 +4,10 @@ import net.twasi.twitchapi.exception.RequestException;
 
 public interface RestClient {
 
-    public <T> RestClientResponse<T> get(Class clazz, String url) throws RequestException;
-    public <T> RestClientResponse<T> get(Class clazz, String url, String authorizationValue) throws RequestException;
+    <T> RestClientResponse<T> get(Class clazz, String url) throws RequestException;
+    <T> RestClientResponse<T> get(Class clazz, String url, RequestOptions options) throws RequestException;
 
-    public <T> RestClientResponse<T> post(Class clazz, String url) throws RequestException;
+    <T> RestClientResponse<T> post(Class clazz, String url) throws RequestException;
+    <T> RestClientResponse<T> post(Class clazz, String url, RequestOptions options) throws RequestException;
 
 }
