@@ -32,7 +32,7 @@ public class Authentication {
 
     public TokenDTO getToken(String code) {
         try {
-            RestClientResponse<TokenDTO> response = client.get(TokenDTO.class, Constants.getTokenAuthUrl(ctx.getClientId(), ctx.getClientSecret(), code, ctx.getRedirectUri()));
+            RestClientResponse<TokenDTO> response = client.post(TokenDTO.class, Constants.getTokenAuthUrl(ctx.getClientId(), ctx.getClientSecret(), code, ctx.getRedirectUri()));
 
             return response.getResponse();
         } catch (RequestException e) {
