@@ -1,0 +1,14 @@
+{
+  "data": [{
+    "id": "1337",
+    "login": "loginName",
+    "display_name": "displayName",
+    "type": "type",
+    "broadcaster_type": "broadcasterType",
+    "description": "description",
+    "profile_image_url": "profileImageUrl",
+    "offline_image_url": "offlineImageUrl",
+    "view_count": 1337,
+    "email": "login@provider.com"
+  }]
+}

@@ -35,6 +35,13 @@ public class MockClient implements RestClient {
     }
 
     @Override
+    public <T> RestClientResponse<T> get(Class clazz, String url, String authValue) throws RequestException {
+        String path = jsonPath + "_get.json";
+
+        return getResponse(path, clazz);
+    }
+
+    @Override
     public <T> RestClientResponse<T> post(Class clazz, String url) throws RequestException {
         String path = jsonPath + "_post.json";
 

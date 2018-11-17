@@ -34,4 +34,8 @@ public class Constants {
     public static String getTokenRefreshAuthUrl(String clientId, String clientSecret, String refreshToken) {
         return String.format(ID_TOKEN_REFRESH_URL, refreshToken, clientId, clientSecret);
     }
+
+    // Helix
+    public static final String HELIX = "https://api.twitch.tv/helix";
+    public static final String HELIX_USERS = HELIX + "/users";
 }

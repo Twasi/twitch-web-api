@@ -1,0 +1,36 @@
+package net.twasi.twitchapi.unit.helix.users;
+
+import net.twasi.twitchapi.Constants;
+import net.twasi.twitchapi.auth.AuthorizationContext;
+import net.twasi.twitchapi.helix.users.Users;
+import net.twasi.twitchapi.helix.users.response.*;
+import net.twasi.twitchapi.mock.MockClient;
+import net.twasi.twitchapi.requests.RestClient;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class UsersTest {
+
+    @Test
+    public void returnsCurrentUser() {
+        AuthorizationContext ctx = Constants.AUTH_CONTEXT;
+
+        RestClient mocked = new MockClient("helix/users/getCurrent");
+
+        Users users = new Users(mocked, ctx);
+
+        UserDTO user = users.getCurrentUser("accessToken");
+
+        Assertions.assertEquals("1337", user.getId());
+        Assertions.assertEquals("loginName", user.getLogin());
+        Assertions.assertEquals("displayName", user.getDisplayName());
+        Assertions.assertEquals("type", user.getType());
+        Assertions.assertEquals("broadcasterType", user.getBroadcasterType());
+        Assertions.assertEquals("description", user.getDescription());
+        Assertions.assertEquals("profileImageUrl", user.getProfileImageUrl());
+        Assertions.assertEquals("offlineImageUrl", user.getOfflineImageUrl());
+        Assertions.assertEquals(1337, user.getViewCount());
+        Assertions.assertEquals("login@provider.com", user.getEmail());
+    }
+
+}
