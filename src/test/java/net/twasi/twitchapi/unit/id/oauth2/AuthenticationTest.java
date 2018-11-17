@@ -45,7 +45,7 @@ public class AuthenticationTest {
     public void refreshesToken() {
         AuthorizationContext ctx = new AuthorizationContext("clientId", "clientSecret", "redirectUri");
 
-        RestClient mocked = new MockClient("oauth/getToken");
+        RestClient mocked = new MockClient("oauth/refreshToken");
 
         Authentication auth = new Authentication(mocked, ctx);
 

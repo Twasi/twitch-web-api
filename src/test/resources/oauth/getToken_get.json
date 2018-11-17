@@ -1,7 +1,0 @@
-{
-  "access_token": "userAccessToken",
-  "refresh_token": "userRefreshToken",
-  "expires_in": 1337,
-  "scope": ["scope1", "scope2"],
-  "token_type": "tokenType"
-}
