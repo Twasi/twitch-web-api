@@ -6,4 +6,6 @@ public interface RestClient {
 
     public <T> RestClientResponse<T> get(Class clazz, String url) throws RequestException;
 
+    public <T> RestClientResponse<T> post(Class clazz, String url) throws RequestException;
+
 }

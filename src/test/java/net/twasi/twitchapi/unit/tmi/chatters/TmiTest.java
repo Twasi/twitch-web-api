@@ -10,7 +10,9 @@ public class TmiTest {
 
     @Test
     public void getChatters() {
-        Tmi tmi = new Tmi(new MockClient("tmi/chatters/getByName"));
+        MockClient mocked = new MockClient("tmi/chatters/getByName");
+
+        Tmi tmi = new Tmi(mocked);
 
         ChattersDTO response = tmi.chatters().getByName("larcce");
 

@@ -31,6 +31,17 @@ public class MockClient implements RestClient {
     public <T> RestClientResponse<T> get(Class clazz, String url) throws RequestException {
         String path = jsonPath + "_get.json";
 
+        return getResponse(path, clazz);
+    }
+
+    @Override
+    public <T> RestClientResponse<T> post(Class clazz, String url) throws RequestException {
+        String path = jsonPath + "_post.json";
+
+        return getResponse(path, clazz);
+    }
+
+    private <T> RestClientResponse<T> getResponse(String path, Class clazz) {
         ObjectMapper mapper = new ObjectMapper();
 
         T result = null;
