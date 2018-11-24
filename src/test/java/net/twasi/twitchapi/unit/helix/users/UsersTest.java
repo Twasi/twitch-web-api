@@ -2,6 +2,7 @@ package net.twasi.twitchapi.unit.helix.users;
 
 import net.twasi.twitchapi.Constants;
 import net.twasi.twitchapi.auth.AuthorizationContext;
+import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 import net.twasi.twitchapi.helix.users.Users;
 import net.twasi.twitchapi.helix.users.response.*;
 import net.twasi.twitchapi.mock.MockClient;
@@ -14,12 +15,13 @@ public class UsersTest {
     @Test
     public void returnsCurrentUser() {
         AuthorizationContext ctx = Constants.AUTH_CONTEXT;
+        PersonalAuthorizationContext personalCtx = Constants.PERSONAL_AUTH_CONTEXT;
 
         RestClient mocked = new MockClient("helix/users/getCurrent");
 
         Users users = new Users(mocked, ctx);
 
-        UserDTO user = users.getCurrentUser("accessToken");
+        UserDTO user = users.withAuth(personalCtx).getCurrentUser();
 
         Assertions.assertEquals("1337", user.getId());
         Assertions.assertEquals("loginName", user.getLogin());

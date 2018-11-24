@@ -6,7 +6,11 @@ import net.twasi.twitchapi.tmi.chatters.Chatters;
 public class Tmi {
     private Chatters chatters;
 
+    private RestClient client;
+
     public Tmi(RestClient client) {
+        this.client = client;
+
         // No auth required
         chatters = new Chatters(client);
     }
