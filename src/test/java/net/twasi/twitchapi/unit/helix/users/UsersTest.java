@@ -35,4 +35,22 @@ public class UsersTest {
         Assertions.assertEquals("login@provider.com", user.getEmail());
     }
 
+    @Test
+    public void followedBy() {
+        AuthorizationContext ctx = Constants.AUTH_CONTEXT;
+        PersonalAuthorizationContext personalCtx = Constants.PERSONAL_AUTH_CONTEXT;
+
+        RestClient mocked = new MockClient("helix/users/getFollows");
+
+        Users users = new Users(mocked, ctx);
+
+        UserFollowDTO userFollow = users.withAuth(personalCtx).getFollowedBy("123123");
+
+        Assertions.assertEquals("7777777", userFollow.getFromId());
+        Assertions.assertEquals("TwasiBot", userFollow.getFromName());
+        Assertions.assertEquals("7777776", userFollow.getToId());
+        Assertions.assertEquals("Spendendose", userFollow.getToName());
+
+    }
+
 }

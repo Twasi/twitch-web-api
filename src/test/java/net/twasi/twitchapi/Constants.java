@@ -7,6 +7,6 @@ import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 public class Constants {
 
     public static final AuthorizationContext AUTH_CONTEXT = new AuthorizationContext("clientId", "clientSecret", "redirectUri");
-    public static final PersonalAuthorizationContext PERSONAL_AUTH_CONTEXT = new PersonalAuthorizationContext("accessToken", "refreshToken", AuthenticationType.OAUTH);
+    public static final PersonalAuthorizationContext PERSONAL_AUTH_CONTEXT = new PersonalAuthorizationContext("accessToken", "refreshToken", "twitchId", AuthenticationType.OAUTH);
 
 }

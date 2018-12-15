@@ -12,6 +12,7 @@ public class Constants {
             "&response_type=%s" +
             "&scope=%s" +
             "&state=%s";
+
     public static String getIDAuthUrl(String clientId, String redirectUri, String responseType, String scope, String state) {
         return String.format(ID_AUTH_URL, clientId, redirectUri, responseType, scope, state);
     }
@@ -38,4 +39,5 @@ public class Constants {
     // Helix
     public static final String HELIX = "https://api.twitch.tv/helix";
     public static final String HELIX_USERS = HELIX + "/users";
+    public static final String HELIX_USERS_FOLLOW = HELIX_USERS + "/follows";
 }

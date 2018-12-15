@@ -34,6 +34,20 @@ public class Users {
 
             return response.getResponse().getData().get(0);
         }
+
+        public UserFollowDTO getFollowedBy(String twitchId) {
+            RequestOptions options = new RequestOptions()
+                    .withPersonalAuth(personalCtx)
+                    .withQueryString("from_id", twitchId)
+                    .withQueryString("to_id", personalCtx.getTwitchId());
+
+            RestClientResponse<HelixResponseWrapper<UserFollowDTO>> response = client.get(UserFollowDTO.WrappedUserFollowDTO.class, Constants.HELIX_USERS_FOLLOW, options);
+
+            if (response.getResponse().getData().size() == 0) {
+                return null;
+            }
+            return response.getResponse().getData().get(0);
+        }
     }
 
 }

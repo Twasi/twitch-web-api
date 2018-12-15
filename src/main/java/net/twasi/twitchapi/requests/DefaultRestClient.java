@@ -8,7 +8,6 @@ import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import net.twasi.twitchapi.exception.RejectionReason;
 import net.twasi.twitchapi.exception.RejectionSolveMethod;
-import net.twasi.twitchapi.exception.RequestException;
 
 import java.util.logging.Logger;
 

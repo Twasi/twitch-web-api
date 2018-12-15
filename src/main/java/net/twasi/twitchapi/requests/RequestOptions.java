@@ -6,9 +6,15 @@ import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 import net.twasi.twitchapi.exception.RejectionReason;
 import net.twasi.twitchapi.exception.RejectionSolveMethod;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RequestOptions {
     private PersonalAuthorizationContext ctx;
     private boolean v5Header = false;
+
+    // Request information
+    private Map<String, String> queryString = new HashMap<>();
 
     private int retries = 0;
 
@@ -22,6 +28,11 @@ public class RequestOptions {
         return this;
     }
 
+    public RequestOptions withQueryString(String key, String value) {
+        queryString.put(key, value);
+        return this;
+    }
+
     void apply(HttpRequest request) {
         if (ctx != null) {
             if (ctx.getType() == AuthenticationType.BEARER) {
@@ -29,6 +40,10 @@ public class RequestOptions {
             } else if (ctx.getType() == AuthenticationType.OAUTH) {
                 request.header("Authorization", "OAuth " + ctx.getAccessToken());
             }
+        }
+
+        for (Map.Entry<String, String> entry : queryString.entrySet()) {
+            request.queryString(entry.getKey(), entry.getValue());
         }
 
         if (v5Header) {

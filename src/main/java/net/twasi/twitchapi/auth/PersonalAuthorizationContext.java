@@ -7,11 +7,14 @@ public class PersonalAuthorizationContext {
     private String accessToken;
     private String refreshToken;
 
+    private String twitchId;
+
     private AuthenticationType type;
 
-    public PersonalAuthorizationContext(String accessToken, String refreshToken, AuthenticationType type) {
+    public PersonalAuthorizationContext(String accessToken, String refreshToken, String twitchId, AuthenticationType type) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.twitchId = twitchId;
         this.type = type;
     }
 
@@ -25,6 +28,10 @@ public class PersonalAuthorizationContext {
 
     public AuthenticationType getType() {
         return type;
+    }
+
+    public String getTwitchId() {
+        return twitchId;
     }
 
     public boolean autoRefresh() {
