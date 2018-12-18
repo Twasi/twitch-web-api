@@ -1,11 +1,14 @@
 package net.twasi.twitchapi.unit.helix.users;
 
 import net.twasi.twitchapi.Constants;
+import net.twasi.twitchapi.TwitchAPI;
+import net.twasi.twitchapi.auth.AuthenticationType;
 import net.twasi.twitchapi.auth.AuthorizationContext;
 import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 import net.twasi.twitchapi.helix.users.Users;
 import net.twasi.twitchapi.helix.users.response.*;
 import net.twasi.twitchapi.mock.MockClient;
+import net.twasi.twitchapi.requests.DefaultRestClient;
 import net.twasi.twitchapi.requests.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -50,7 +53,6 @@ public class UsersTest {
         Assertions.assertEquals("TwasiBot", userFollow.getFromName());
         Assertions.assertEquals("7777776", userFollow.getToId());
         Assertions.assertEquals("Spendendose", userFollow.getToName());
-
     }
 
 }

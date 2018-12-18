@@ -30,7 +30,9 @@ public class Users {
         }
 
         public UserDTO getCurrentUser() {
-            RestClientResponse<HelixResponseWrapper<UserDTO>> response = client.get(UserDTO.WrappedUserDTO.class, Constants.HELIX_USERS, new RequestOptions().withPersonalAuth(personalCtx));
+            RequestOptions options = new RequestOptions().withPersonalAuth(personalCtx);
+
+            RestClientResponse<HelixResponseWrapper<UserDTO>> response = client.get(UserDTO.WrappedUserDTO.class, Constants.HELIX_USERS, options);
 
             return response.getResponse().getData().get(0);
         }

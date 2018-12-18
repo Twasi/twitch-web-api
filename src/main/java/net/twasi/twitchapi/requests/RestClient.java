@@ -8,4 +8,7 @@ public interface RestClient {
     <T> RestClientResponse<T> post(Class clazz, String url);
     <T> RestClientResponse<T> post(Class clazz, String url, RequestOptions options);
 
+    <T> RestClientResponse<T> put(Class clazz, String url);
+    <T> RestClientResponse<T> put(Class clazz, String url, RequestOptions options);
+
 }

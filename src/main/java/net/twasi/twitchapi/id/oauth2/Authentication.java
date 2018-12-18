@@ -3,6 +3,7 @@ package net.twasi.twitchapi.id.oauth2;
 import net.twasi.twitchapi.auth.AuthorizationContext;
 import net.twasi.twitchapi.config.Constants;
 import net.twasi.twitchapi.id.oauth2.response.TokenDTO;
+import net.twasi.twitchapi.requests.RequestOptions;
 import net.twasi.twitchapi.requests.RestClient;
 import net.twasi.twitchapi.requests.RestClientResponse;
 
@@ -26,7 +27,7 @@ public class Authentication {
     }
 
     public TokenDTO refreshToken(String refreshToken) {
-        RestClientResponse<TokenDTO> response = client.post(TokenDTO.class, Constants.getTokenRefreshAuthUrl(ctx.getClientId(), ctx.getClientSecret(), refreshToken));
+        RestClientResponse<TokenDTO> response = client.post(TokenDTO.class, Constants.getTokenRefreshAuthUrl(ctx.getClientId(), ctx.getClientSecret(), refreshToken), new RequestOptions().dontRetry());
 
         return response.getResponse();
     }

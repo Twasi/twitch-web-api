@@ -7,6 +7,7 @@ import net.twasi.twitchapi.auth.AuthorizationContext;
 import net.twasi.twitchapi.exception.NotInitializedException;
 import net.twasi.twitchapi.helix.Helix;
 import net.twasi.twitchapi.id.oauth2.Authentication;
+import net.twasi.twitchapi.kraken.Kraken;
 import net.twasi.twitchapi.requests.DefaultRestClient;
 import net.twasi.twitchapi.requests.RestClient;
 import net.twasi.twitchapi.tmi.Tmi;
@@ -29,6 +30,9 @@ public class TwitchAPI {
     // Helix (new Api)
     private static Helix helix;
 
+    // Kraken (v5 Api)
+    private static Kraken kraken;
+
     public static void initialize(AuthorizationContext authContext) {
         TwitchAPI.authContext = authContext;
         TwitchAPI.client = new DefaultRestClient();
@@ -39,6 +43,8 @@ public class TwitchAPI {
 
         TwitchAPI.helix = new Helix(TwitchAPI.client, TwitchAPI.authContext);
 
+        TwitchAPI.kraken = new Kraken(TwitchAPI.client, TwitchAPI.authContext);
+
         // Setup unirest
         Unirest.setObjectMapper(new ObjectMapper() {
             private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
@@ -48,7 +54,8 @@ public class TwitchAPI {
                 try {
                     return jacksonObjectMapper.readValue(value, valueType);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    //throw new RuntimeException(e);
+                    return null;
                 }
             }
 
@@ -83,6 +90,11 @@ public class TwitchAPI {
     public static Helix helix() {
         checkInitialization();
         return helix;
+    }
+
+    public static Kraken kraken() {
+        checkInitialization();
+        return kraken;
     }
 
 }

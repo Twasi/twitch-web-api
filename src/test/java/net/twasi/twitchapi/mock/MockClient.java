@@ -27,6 +27,7 @@ public class MockClient implements RestClient {
         return file;
     }
 
+    // GET
     @Override
     public <T> RestClientResponse<T> get(Class clazz, String url) {
         String path = jsonPath + "_get.json";
@@ -41,6 +42,7 @@ public class MockClient implements RestClient {
         return getResponse(path, clazz);
     }
 
+    // POST
     @Override
     public <T> RestClientResponse<T> post(Class clazz, String url) {
         String path = jsonPath + "_post.json";
@@ -51,6 +53,21 @@ public class MockClient implements RestClient {
     @Override
     public <T> RestClientResponse<T> post(Class clazz, String url, RequestOptions options) {
         String path = jsonPath + "_post.json";
+
+        return getResponse(path, clazz);
+    }
+
+    // PUT
+    @Override
+    public <T> RestClientResponse<T> put(Class clazz, String url) {
+        String path = jsonPath + "_put.json";
+
+        return getResponse(path, clazz);
+    }
+
+    @Override
+    public <T> RestClientResponse<T> put(Class clazz, String url, RequestOptions options) {
+        String path = jsonPath + "_put.json";
 
         return getResponse(path, clazz);
     }
