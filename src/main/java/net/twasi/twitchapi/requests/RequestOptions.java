@@ -2,14 +2,13 @@ package net.twasi.twitchapi.requests;
 
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
-import net.twasi.twitchapi.auth.AuthenticationType;
 import net.twasi.twitchapi.auth.AuthorizationContext;
 import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 import net.twasi.twitchapi.exception.RejectionReason;
 import net.twasi.twitchapi.exception.RejectionSolveMethod;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequestOptions {
     private PersonalAuthorizationContext ctx;
@@ -18,7 +17,7 @@ public class RequestOptions {
     private String body;
 
     // Request information
-    private Map<String, String> queryString = new HashMap<>();
+    private List<QueryStringParameter> queryString = new ArrayList<>();
 
     private int retries = 0;
     private int maxRetries = 2;
@@ -36,7 +35,7 @@ public class RequestOptions {
     }
 
     public RequestOptions withQueryString(String key, String value) {
-        queryString.put(key, value);
+        queryString.add(new QueryStringParameter(key, value));
         return this;
     }
 
@@ -63,8 +62,8 @@ public class RequestOptions {
             }
         }
 
-        for (Map.Entry<String, String> entry : queryString.entrySet()) {
-            request.queryString(entry.getKey(), entry.getValue());
+        for (QueryStringParameter param : queryString) {
+            request.queryString(param.getKey(), param.getValue());
         }
 
         if (body != null) {
@@ -110,6 +109,24 @@ public class RequestOptions {
 
     public PersonalAuthorizationContext getAuthContext() {
         return ctx;
+    }
+
+    static class QueryStringParameter {
+        String key;
+        String value;
+
+        public QueryStringParameter(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
 }

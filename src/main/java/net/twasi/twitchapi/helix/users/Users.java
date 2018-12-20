@@ -3,11 +3,14 @@ package net.twasi.twitchapi.helix.users;
 import net.twasi.twitchapi.auth.AuthorizationContext;
 import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 import net.twasi.twitchapi.config.Constants;
+import net.twasi.twitchapi.exception.RequestException;
 import net.twasi.twitchapi.helix.HelixResponseWrapper;
 import net.twasi.twitchapi.requests.RequestOptions;
 import net.twasi.twitchapi.requests.RestClient;
 import net.twasi.twitchapi.helix.users.response.*;
 import net.twasi.twitchapi.requests.RestClientResponse;
+
+import java.util.List;
 
 public class Users {
     private RestClient client;
@@ -20,6 +23,26 @@ public class Users {
 
     public UsersWithAuth withAuth(PersonalAuthorizationContext personalCtx) {
         return new UsersWithAuth(personalCtx);
+    }
+
+    public List<UserDTO> getUsers(String[] ids, String[] logins) {
+        if (ids.length + logins.length > 100) {
+            throw new RuntimeException("You may not supply more than 100 ids/logins in total to getUsers. Maybe this will be implemented in the future.");
+        }
+
+        RequestOptions options = new RequestOptions();
+
+        for(String id : ids) {
+            options.withQueryString("id", id);
+        }
+
+        for(String login : logins) {
+            options.withQueryString("login", login);
+        }
+
+        RestClientResponse<HelixResponseWrapper<UserDTO>> response = client.get(UserDTO.WrappedUserDTO.class, Constants.HELIX_USERS, options);
+
+        return response.getResponse().getData();
     }
 
     public class UsersWithAuth {
