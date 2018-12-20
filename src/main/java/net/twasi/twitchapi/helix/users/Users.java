@@ -26,6 +26,14 @@ public class Users {
     }
 
     public List<UserDTO> getUsers(String[] ids, String[] logins) {
+        if (ids == null) {
+            ids = new String[0];
+        }
+
+        if (logins == null) {
+            logins = new String[0];
+        }
+
         if (ids.length + logins.length > 100) {
             throw new RuntimeException("You may not supply more than 100 ids/logins in total to getUsers. Maybe this will be implemented in the future.");
         }
