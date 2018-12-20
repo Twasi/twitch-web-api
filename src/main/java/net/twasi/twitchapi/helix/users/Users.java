@@ -37,10 +37,10 @@ public class Users {
             return response.getResponse().getData().get(0);
         }
 
-        public UserFollowDTO getFollowedBy(String twitchId) {
+        public UserFollowDTO getFollowedBy(String fromUser, UserFollowRequestArgumentType type) {
             RequestOptions options = new RequestOptions()
                     .withPersonalAuth(personalCtx)
-                    .withQueryString("from_id", twitchId)
+                    .withQueryString(type.toString(), fromUser)
                     .withQueryString("to_id", personalCtx.getTwitchId());
 
             RestClientResponse<HelixResponseWrapper<UserFollowDTO>> response = client.get(UserFollowDTO.WrappedUserFollowDTO.class, Constants.HELIX_USERS_FOLLOW, options);
@@ -49,6 +49,25 @@ public class Users {
                 return null;
             }
             return response.getResponse().getData().get(0);
+        }
+
+        public UserFollowDTO getFollowedBy(String fromTwitchId){
+            return getFollowedBy(fromTwitchId, UserFollowRequestArgumentType.TWITCH_ID);
+        }
+    }
+
+    public enum UserFollowRequestArgumentType {
+        TWITCH_ID {
+            @Override
+            public String toString() {
+                return "from_id";
+            }
+        },
+        USERNAME {
+            @Override
+            public String toString() {
+                return "from_name";
+            }
         }
     }
 
