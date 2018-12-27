@@ -28,8 +28,12 @@ public class RequestOptions {
         return this;
     }
 
-    public RequestOptions withV5(AuthorizationContext ctx) {
+    public RequestOptions withV5() {
         v5Header = true;
+        return this;
+    }
+
+    public RequestOptions withClientId(AuthorizationContext ctx) {
         generalCtx = ctx;
         return this;
     }
@@ -72,10 +76,13 @@ public class RequestOptions {
             req.header("Content-Type", "application/json");
         }
 
+        if (generalCtx != null) {
+            request.header("Client-ID", generalCtx.getClientId());
+        }
+
         if (v5Header) {
             request.header("Accept", "application/vnd.twitchtv.v5+json");
             //request.header("Content-Type", "application/json");
-            request.header("Client-ID", generalCtx.getClientId());
         }
     }
 

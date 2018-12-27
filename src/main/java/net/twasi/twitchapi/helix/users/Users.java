@@ -38,7 +38,8 @@ public class Users {
             throw new RuntimeException("You may not supply more than 100 ids/logins in total to getUsers. Maybe this will be implemented in the future.");
         }
 
-        RequestOptions options = new RequestOptions();
+        RequestOptions options = new RequestOptions()
+                .withClientId(ctx);
 
         for(String id : ids) {
             options.withQueryString("id", id);

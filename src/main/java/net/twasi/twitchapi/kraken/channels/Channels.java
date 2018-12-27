@@ -46,7 +46,8 @@ public class Channels {
 
             RequestOptions options = new RequestOptions()
                     .withPersonalAuth(personalCtx)
-                    .withV5(ctx)
+                    .withV5()
+                    .withClientId(ctx)
                     .withJsonBody(json);
 
             RestClientResponse<ChannelDTO> response = client.put(ChannelDTO.class, Constants.KRAKEN_CHANNELS + "/" + personalCtx.getTwitchId(), options);
