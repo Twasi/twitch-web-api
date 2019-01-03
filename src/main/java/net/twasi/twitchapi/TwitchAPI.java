@@ -54,8 +54,8 @@ public class TwitchAPI {
                 try {
                     return jacksonObjectMapper.readValue(value, valueType);
                 } catch (IOException e) {
-                    //throw new RuntimeException(e);
-                    return null;
+                    throw new RuntimeException(e);
+                    //return null;
                 }
             }
 
