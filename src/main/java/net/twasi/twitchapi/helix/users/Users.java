@@ -5,6 +5,7 @@ import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 import net.twasi.twitchapi.config.Constants;
 import net.twasi.twitchapi.exception.RequestException;
 import net.twasi.twitchapi.helix.HelixResponseWrapper;
+import net.twasi.twitchapi.options.TwitchRequestOptions;
 import net.twasi.twitchapi.requests.RequestOptions;
 import net.twasi.twitchapi.requests.RestClient;
 import net.twasi.twitchapi.helix.users.response.*;
@@ -25,7 +26,7 @@ public class Users {
         return new UsersWithAuth(personalCtx);
     }
 
-    public List<UserDTO> getUsers(String[] ids, String[] logins) {
+    public List<UserDTO> getUsers(String[] ids, String[] logins, TwitchRequestOptions requestOptions) {
         if (ids == null) {
             ids = new String[0];
         }
@@ -39,7 +40,8 @@ public class Users {
         }
 
         RequestOptions options = new RequestOptions()
-                .withClientId(ctx);
+                .withClientId(ctx)
+                .withRequestOptions(requestOptions);
 
         for(String id : ids) {
             options.withQueryString("id", id);
