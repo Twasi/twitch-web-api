@@ -80,6 +80,16 @@ public class DefaultRestClient implements RestClient {
                 return handleRejection(request, clazz, options, method, "Authorization failed. Status code: " + result.getStatus() + ", Body: " + convertStreamToString(result.getRawBody()));
             }
 
+            if (result.getStatus() == 429) {
+                // Rate limiting problem
+
+                logger.info("Rate limiting hit.\r\n" +
+                        "Ratelimit-Limit (requests/minute): " + result.getHeaders().getFirst("Ratelimit-Limit") + "\r\n" +
+                        "Ratelimit-Remaining: " + result.getHeaders().getFirst("Ratelimit-Remaining") + "\r\n" +
+                        "Ratelimit-Reset: " + result.getHeaders().getFirst("Ratelimit-Reset"));
+
+            }
+
             // Server problem - request problem
             RejectionSolveMethod method = options.handleRejection(RejectionReason.FAILED);
 
@@ -102,11 +112,11 @@ public class DefaultRestClient implements RestClient {
         }
         if (method == RejectionSolveMethod.FAIL) {
             // Log
-            logger.severe("Request failed. URL: " + request.getUrl() + ", " + information);
-            logger.severe("Headers sent: " + request.getHeaders());
-            logger.severe("HTTP method: " + request.getHttpMethod());
-            logger.severe("HTTP URL: " + request.getUrl());
-            logger.severe("Retry attempts: " + options.getRetries());
+            logger.severe("Request failed. URL: " + request.getUrl() + ", " + information + "\r\n" +
+                    "Headers sent: " + request.getHeaders() + "\r\n" +
+                    "HTTP method: " + request.getHttpMethod() + "\r\n" +
+                    "HTTP URL: " + request.getUrl() + "\r\n" +
+                    "Retry attempts: " + options.getRetries());
             return null;
         }
         return null;
