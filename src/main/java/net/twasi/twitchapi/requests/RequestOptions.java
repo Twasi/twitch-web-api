@@ -6,6 +6,7 @@ import net.twasi.twitchapi.auth.AuthorizationContext;
 import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 import net.twasi.twitchapi.exception.RejectionReason;
 import net.twasi.twitchapi.exception.RejectionSolveMethod;
+import net.twasi.twitchapi.options.TwitchRequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class RequestOptions {
     private AuthorizationContext generalCtx;
     private boolean v5Header = false;
     private String body;
+    private TwitchRequestOptions options;
 
     // Request information
     private List<QueryStringParameter> queryString = new ArrayList<>();
@@ -53,11 +55,22 @@ public class RequestOptions {
         return this;
     }
 
+    public RequestOptions withRequestOptions(TwitchRequestOptions options) {
+        this.options = options;
+        return this;
+    }
+
     public int getRetries() {
         return retries;
     }
 
     void apply(HttpRequest request) {
+        if (options != null) {
+            if (options.getPersonalCtx() != null) {
+                request.header("Authorization", "Bearer " + options.getPersonalCtx().getAccessToken());
+            }
+        }
+
         if (ctx != null) {
             if (!v5Header) {
                 request.header("Authorization", "Bearer " + ctx.getAccessToken());
