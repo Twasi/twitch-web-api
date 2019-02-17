@@ -12,6 +12,7 @@ public class Constants {
             "&response_type=%s" +
             "&scope=%s" +
             "&state=%s";
+    public static final String ID_TOKEN_VALIDATE_URL = "https://id.twitch.tv/oauth2/validate";
 
     public static String getIDAuthUrl(String clientId, String redirectUri, String responseType, String scope, String state) {
         return String.format(ID_AUTH_URL, clientId, redirectUri, responseType, scope, state);

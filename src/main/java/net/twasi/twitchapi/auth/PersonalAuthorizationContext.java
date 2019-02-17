@@ -49,6 +49,10 @@ public class PersonalAuthorizationContext {
         return true;
     }
 
+    public boolean isValid() {
+        return TwitchAPI.authentication().isValid(accessToken);
+    }
+
     /**
      * If you need to catch the event of a token refreshing,
      * create a subclass and override this method.

@@ -83,11 +83,26 @@ public class DefaultRestClient implements RestClient {
             if (result.getStatus() == 429) {
                 // Rate limiting problem
 
-                logger.info("Rate limiting hit.\r\n" +
+                // Check if there is a token provided
+                if (options.getTwitchRequestOptions() != null && options.getTwitchRequestOptions().getPersonalCtx() != null) {
+                    // Check if it's valid
+                    if (!options.getTwitchRequestOptions().getPersonalCtx().isValid()) {
+                        // Yeah it's invalid, we can refresh it.
+                        options.getTwitchRequestOptions().getPersonalCtx().autoRefresh();
+
+                        // Retry it.
+                        return handleRejection(request, clazz, options, RejectionSolveMethod.RETRY, null);
+                    }
+
+                    // The token is valid but it failed anyways. Probably hit the hard limit. Fail.
+                    return handleRejection(request, clazz, options, RejectionSolveMethod.FAIL, "Rate limiting hit. Auth token provided & valid. Requests/Minute: " + result.getHeaders().getFirst("Ratelimit-Limit"));
+                }
+
+                // There was no auth token provided. Problematic :O
+                return handleRejection(request, clazz, options, RejectionSolveMethod.FAIL, "Rate limiting hit. Auth token NOT provided.\r\n" +
                         "Ratelimit-Limit (requests/minute): " + result.getHeaders().getFirst("Ratelimit-Limit") + "\r\n" +
                         "Ratelimit-Remaining: " + result.getHeaders().getFirst("Ratelimit-Remaining") + "\r\n" +
                         "Ratelimit-Reset: " + result.getHeaders().getFirst("Ratelimit-Reset"));
-
             }
 
             // Server problem - request problem

@@ -9,7 +9,9 @@ import net.twasi.twitchapi.exception.RejectionSolveMethod;
 import net.twasi.twitchapi.options.TwitchRequestOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RequestOptions {
     private PersonalAuthorizationContext ctx;
@@ -20,6 +22,7 @@ public class RequestOptions {
 
     // Request information
     private List<QueryStringParameter> queryString = new ArrayList<>();
+    private Map<String, String> customHeaders = new HashMap<>();
 
     private int retries = 0;
     private int maxRetries = 2;
@@ -60,6 +63,11 @@ public class RequestOptions {
         return this;
     }
 
+    public RequestOptions withHeader(String key, String value) {
+        customHeaders.put(key, value);
+        return this;
+    }
+
     public int getRetries() {
         return retries;
     }
@@ -97,6 +105,11 @@ public class RequestOptions {
             request.header("Accept", "application/vnd.twitchtv.v5+json");
             //request.header("Content-Type", "application/json");
         }
+
+        // Custom headers
+        for (Map.Entry<String, String> entry : customHeaders.entrySet()) {
+            request.header(entry.getKey(), entry.getValue());
+        }
     }
 
     RejectionSolveMethod handleRejection(RejectionReason reason) {
@@ -129,6 +142,10 @@ public class RequestOptions {
 
     public PersonalAuthorizationContext getAuthContext() {
         return ctx;
+    }
+
+    public TwitchRequestOptions getTwitchRequestOptions() {
+        return options;
     }
 
     static class QueryStringParameter {
