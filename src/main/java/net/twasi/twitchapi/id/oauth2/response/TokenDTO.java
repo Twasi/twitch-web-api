@@ -1,7 +1,9 @@
 package net.twasi.twitchapi.id.oauth2.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties
 public class TokenDTO {
     @JsonProperty("access_token")
     private String accessToken;
