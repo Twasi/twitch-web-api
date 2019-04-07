@@ -46,5 +46,5 @@ public class Constants {
     // Kraken
     public static final String KRAKEN = "https://api.twitch.tv/kraken";
     public static final String KRAKEN_CHANNELS = KRAKEN + "/channels";
-    //public static final String KRAKEN_CHANNELS = "http://requestbin.fullcontact.com/182a3ba1";
+    public static final String KRAKEN_EMOTICON_IMAGES = KRAKEN + "/chat/emoticon_images";
 }
