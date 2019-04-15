@@ -42,6 +42,7 @@ public class Constants {
     public static final String HELIX_USERS = HELIX + "/users";
     public static final String HELIX_USERS_FOLLOW = HELIX_USERS + "/follows";
     public static final String HELIX_STREAMS = HELIX + "/streams";
+    public static final String HELIX_GAMES = HELIX + "/games";
 
     // Kraken
     public static final String KRAKEN = "https://api.twitch.tv/kraken";
