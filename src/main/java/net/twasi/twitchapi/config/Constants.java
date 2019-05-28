@@ -42,9 +42,10 @@ public class Constants {
     public static final String HELIX_USERS = HELIX + "/users";
     public static final String HELIX_USERS_FOLLOW = HELIX_USERS + "/follows";
     public static final String HELIX_STREAMS = HELIX + "/streams";
+    public static final String HELIX_GAMES = HELIX + "/games";
 
     // Kraken
     public static final String KRAKEN = "https://api.twitch.tv/kraken";
     public static final String KRAKEN_CHANNELS = KRAKEN + "/channels";
-    //public static final String KRAKEN_CHANNELS = "http://requestbin.fullcontact.com/182a3ba1";
+    public static final String KRAKEN_EMOTICON_IMAGES = KRAKEN + "/chat/emoticon_images";
 }

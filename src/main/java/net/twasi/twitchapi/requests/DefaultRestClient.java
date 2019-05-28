@@ -121,7 +121,12 @@ public class DefaultRestClient implements RestClient {
     private <T> RestClientResponse<T> handleRejection(HttpRequest request, Class clazz, RequestOptions options, RejectionSolveMethod method, String information) {
         if (method == RejectionSolveMethod.RETRY) {
             // Clear all headers (they will be reset)
-            request.getHeaders().clear();
+
+            if (request instanceof HttpRequestWithBody) {
+                request = new HttpRequestWithBody(request.getHttpMethod(), request.getUrl().split("\\?")[0]);
+            } else {
+                request = new HttpRequest(request.getHttpMethod(), request.getUrl().split("\\?")[0]);
+            }
 
             return execute(request, clazz, options);
         }

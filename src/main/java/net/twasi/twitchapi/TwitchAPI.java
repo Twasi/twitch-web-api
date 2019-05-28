@@ -54,8 +54,11 @@ public class TwitchAPI {
                 try {
                     return jacksonObjectMapper.readValue(value, valueType);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
-                    //return null;
+                    // We should not throw an exception here since this would prevent us to handle status codes,
+                    // because the exception is raised before status code assertion is done. Error messages have
+                    // another format than the expected, so that happens quite often.
+                    //throw new RuntimeException(e);
+                    return null;
                 }
             }
 

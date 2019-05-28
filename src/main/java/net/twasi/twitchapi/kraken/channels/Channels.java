@@ -18,14 +18,14 @@ public class Channels {
         this.ctx = ctx;
     }
 
-    public UsersWithAuth withAuth(PersonalAuthorizationContext personalCtx) {
-        return new UsersWithAuth(personalCtx);
+    public ChannelsWithAuth withAuth(PersonalAuthorizationContext personalCtx) {
+        return new ChannelsWithAuth(personalCtx);
     }
 
-    public class UsersWithAuth {
+    public class ChannelsWithAuth {
         private PersonalAuthorizationContext personalCtx;
 
-        UsersWithAuth(PersonalAuthorizationContext personalCtx) {
+        ChannelsWithAuth(PersonalAuthorizationContext personalCtx) {
             this.personalCtx = personalCtx;
         }
 
