@@ -63,6 +63,8 @@ public class Users {
 
         RequestOptions options = new RequestOptions()
                 .withClientId(ctx)
+                .withQueryString("from_id", fromId)
+                .withQueryString("to_id", toId)
                 .withRequestOptions(requestOptions);
 
         RestClientResponse<HelixResponseWrapper<UserFollowDTO>> response = client.get(UserFollowDTO.WrappedUserFollowDTO.class, Constants.HELIX_USERS_FOLLOW, options);
