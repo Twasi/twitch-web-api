@@ -56,6 +56,20 @@ public class Users {
         return response.getResponse().getData();
     }
 
+    public HelixResponseWrapper<UserFollowDTO> getUsersFollows(String fromId, String toId, TwitchRequestOptions requestOptions) {
+        if ((fromId == null || fromId.isEmpty()) && (toId == null || toId.isEmpty())) {
+            throw new RuntimeException("You must either specify fromId or toId to getUserFollows.");
+        }
+
+        RequestOptions options = new RequestOptions()
+                .withClientId(ctx)
+                .withRequestOptions(requestOptions);
+
+        RestClientResponse<HelixResponseWrapper<UserFollowDTO>> response = client.get(UserFollowDTO.WrappedUserFollowDTO.class, Constants.HELIX_USERS_FOLLOW, options);
+
+        return response.getResponse();
+    }
+
     public class UsersWithAuth {
         private PersonalAuthorizationContext personalCtx;
 

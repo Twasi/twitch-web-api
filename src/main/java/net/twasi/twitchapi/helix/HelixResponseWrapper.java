@@ -9,11 +9,15 @@ import java.util.Map;
 public class HelixResponseWrapper<T> {
 
     private List<T> data;
+    private int total;
+    public Map<String, Object> pagination;
 
     public List<T> getData() {
         return data;
     }
 
-    public Map<String, Object> pagination;
+    public int getTotal() {
+        return total;
+    }
 
 }
