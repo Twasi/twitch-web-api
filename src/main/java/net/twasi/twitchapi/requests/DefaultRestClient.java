@@ -8,13 +8,15 @@ import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
 import net.twasi.twitchapi.exception.RejectionReason;
 import net.twasi.twitchapi.exception.RejectionSolveMethod;
+import net.twasi.twitchapi.logging.LoggingConfigurator;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DefaultRestClient implements RestClient {
 
     private String type = "twasi.twitchapi.restclient";
-    private Logger logger = Logger.getLogger(type);
+    private Logger logger = LoggingConfigurator.getLogger(type);
 
     // GET
     @Override
@@ -77,7 +79,7 @@ public class DefaultRestClient implements RestClient {
 
                 logger.info("Returned unauthorized / no access. Trying to refresh oauth token.");
 
-                return handleRejection(request, clazz, options, method, "Authorization failed. Status code: " + result.getStatus() + ", Body: " + convertStreamToString(result.getRawBody()));
+                return handleRejection(request, clazz, options, method, "Authorization failed. Status code: " + result.getStatus() + ", Body: " + convertStreamToString(result.getRawBody()), null);
             }
 
             if (result.getStatus() == 429) {
@@ -91,34 +93,34 @@ public class DefaultRestClient implements RestClient {
                         options.getTwitchRequestOptions().getPersonalCtx().autoRefresh();
 
                         // Retry it.
-                        return handleRejection(request, clazz, options, RejectionSolveMethod.RETRY, null);
+                        return handleRejection(request, clazz, options, RejectionSolveMethod.RETRY, null, null);
                     }
 
                     // The token is valid but it failed anyways. Probably hit the hard limit. Fail.
-                    return handleRejection(request, clazz, options, RejectionSolveMethod.FAIL, "Rate limiting hit. Auth token provided & valid. Requests/Minute: " + result.getHeaders().getFirst("Ratelimit-Limit"));
+                    return handleRejection(request, clazz, options, RejectionSolveMethod.FAIL, "Rate limiting hit. Auth token provided & valid. Requests/Minute: " + result.getHeaders().getFirst("Ratelimit-Limit"), null);
                 }
 
                 // There was no auth token provided. Problematic :O
                 return handleRejection(request, clazz, options, RejectionSolveMethod.FAIL, "Rate limiting hit. Auth token NOT provided.\r\n" +
                         "Ratelimit-Limit (requests/minute): " + result.getHeaders().getFirst("Ratelimit-Limit") + "\r\n" +
                         "Ratelimit-Remaining: " + result.getHeaders().getFirst("Ratelimit-Remaining") + "\r\n" +
-                        "Ratelimit-Reset: " + result.getHeaders().getFirst("Ratelimit-Reset"));
+                        "Ratelimit-Reset: " + result.getHeaders().getFirst("Ratelimit-Reset"), null);
             }
 
             // Server problem - request problem
             RejectionSolveMethod method = options.handleRejection(RejectionReason.FAILED);
 
-            return handleRejection(request, clazz, options, method, "Request failed. Status code: " + result.getStatus() + ", Body: " + convertStreamToString(result.getRawBody()));
+            return handleRejection(request, clazz, options, method, "Request failed. Status code: " + result.getStatus() + ", Body: " + convertStreamToString(result.getRawBody()), null);
 
         } catch (UnirestException e) {
             // Connection problem
             RejectionSolveMethod method = options.handleRejection(RejectionReason.FAILED);
 
-            return handleRejection(request, clazz, options, method, "Request failed. UnirestException: " + e.getMessage());
+            return handleRejection(request, clazz, options, method, "Request failed. UnirestException: " + e.getMessage(), e);
         }
     }
 
-    private <T> RestClientResponse<T> handleRejection(HttpRequest request, Class clazz, RequestOptions options, RejectionSolveMethod method, String information) {
+    private <T> RestClientResponse<T> handleRejection(HttpRequest request, Class clazz, RequestOptions options, RejectionSolveMethod method, String information, Exception e) {
         if (method == RejectionSolveMethod.RETRY) {
             // Clear all headers (they will be reset)
 
@@ -137,6 +139,9 @@ public class DefaultRestClient implements RestClient {
                     "HTTP method: " + request.getHttpMethod() + "\r\n" +
                     "HTTP URL: " + request.getUrl() + "\r\n" +
                     "Retry attempts: " + options.getRetries());
+            if (e != null) {
+                logger.log(Level.INFO, "Exception thrown while requesting", e);
+            }
             return null;
         }
         return null;

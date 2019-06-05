@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ChattersListDTO {
 
+    private List<String> broadcaster = new ArrayList<>();
     private List<String> vips = new ArrayList<>();
     private List<String> moderators = new ArrayList<>();
     private List<String> staff = new ArrayList<>();
@@ -39,9 +40,18 @@ public class ChattersListDTO {
         return viewers;
     }
 
+    public List<String> getBroadcaster() {
+        return broadcaster;
+    }
+
+    public String getSingleBroadcaster() {
+        return broadcaster.get(0);
+    }
+
     public List<String> getAll() {
         List<String> all = new ArrayList<>();
 
+        all.addAll(getBroadcaster());
         all.addAll(getVips());
         all.addAll(getModerators());
         all.addAll(getStaff());

@@ -8,15 +8,19 @@ import net.twasi.twitchapi.exception.NotInitializedException;
 import net.twasi.twitchapi.helix.Helix;
 import net.twasi.twitchapi.id.oauth2.Authentication;
 import net.twasi.twitchapi.kraken.Kraken;
+import net.twasi.twitchapi.logging.LoggingConfigurator;
 import net.twasi.twitchapi.requests.DefaultRestClient;
 import net.twasi.twitchapi.requests.RestClient;
 import net.twasi.twitchapi.tmi.Tmi;
 
 import java.io.IOException;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class TwitchAPI {
 
     private static boolean isInitialized = false;
+    private static Logger logger = LoggingConfigurator.getLogger("TwitchAPI");
 
     private static AuthorizationContext authContext;
     private static RestClient client;
@@ -58,6 +62,7 @@ public class TwitchAPI {
                     // because the exception is raised before status code assertion is done. Error messages have
                     // another format than the expected, so that happens quite often.
                     //throw new RuntimeException(e);
+                    logger.info("Exception was thrown while requesting: " + e.getMessage());
                     return null;
                 }
             }

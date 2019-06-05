@@ -5,7 +5,9 @@ import java.util.logging.*;
 
 public class LoggingConfigurator {
 
-    public void configure() {
+    private static boolean isConfigured = false;
+
+    public static void configure() {
         // Set up logging
         Logger rootLogger = LogManager.getLogManager().getLogger("");
         rootLogger.setLevel(Level.INFO);
@@ -18,6 +20,15 @@ public class LoggingConfigurator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        isConfigured = true;
+    }
+
+    public static Logger getLogger(String name) {
+        if (!isConfigured) {
+            configure();
+        }
+
+        return Logger.getLogger(name);
     }
 
 }
