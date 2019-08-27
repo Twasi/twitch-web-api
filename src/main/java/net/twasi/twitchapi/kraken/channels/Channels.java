@@ -54,5 +54,16 @@ public class Channels {
 
             return response.getResponse();
         }
+
+        public ChannelDTO getChannel() {
+            RequestOptions options = new RequestOptions()
+                    .withPersonalAuth(personalCtx)
+                    .withV5()
+                    .withClientId(ctx);
+
+            RestClientResponse<ChannelDTO> response = client.put(ChannelDTO.class, Constants.KRAKEN_CHANNELS + "/" + personalCtx.getTwitchId(), options);
+
+            return response.getResponse();
+        }
     }
 }

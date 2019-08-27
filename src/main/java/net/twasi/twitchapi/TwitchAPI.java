@@ -57,7 +57,7 @@ public class TwitchAPI {
             public <T> T readValue(String value, Class<T> valueType) {
                 try {
                     return jacksonObjectMapper.readValue(value, valueType);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     // We should not throw an exception here since this would prevent us to handle status codes,
                     // because the exception is raised before status code assertion is done. Error messages have
                     // another format than the expected, so that happens quite often.
