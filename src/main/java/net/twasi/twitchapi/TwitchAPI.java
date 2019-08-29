@@ -14,6 +14,7 @@ import net.twasi.twitchapi.requests.RestClient;
 import net.twasi.twitchapi.tmi.Tmi;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -62,7 +63,7 @@ public class TwitchAPI {
                     // because the exception is raised before status code assertion is done. Error messages have
                     // another format than the expected, so that happens quite often.
                     //throw new RuntimeException(e);
-                    logger.info("Exception was thrown while requesting: " + e.getMessage());
+                    logger.finer("Exception was thrown while requesting: " + e.getMessage());
                     return null;
                 }
             }

@@ -6,12 +6,14 @@ import net.twasi.twitchapi.auth.AuthorizationContext;
 import net.twasi.twitchapi.auth.PersonalAuthorizationContext;
 import net.twasi.twitchapi.exception.RejectionReason;
 import net.twasi.twitchapi.exception.RejectionSolveMethod;
+import net.twasi.twitchapi.logging.LoggingConfigurator;
 import net.twasi.twitchapi.options.TwitchRequestOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class RequestOptions {
     private PersonalAuthorizationContext ctx;
@@ -20,6 +22,9 @@ public class RequestOptions {
     private String body;
     private TwitchRequestOptions options;
 
+    private String type = "twasi.twitchapi.requestoptions";
+    private Logger logger = LoggingConfigurator.getLogger(type);
+
     // Request information
     private List<QueryStringParameter> queryString = new ArrayList<>();
     private Map<String, String> customHeaders = new HashMap<>();
@@ -27,6 +32,7 @@ public class RequestOptions {
     private int retries = 0;
     private int maxRetries = 2;
     private boolean shouldRetry = true;
+    private boolean failSilently = false;
 
     public RequestOptions withPersonalAuth(PersonalAuthorizationContext personalCtx) {
         this.ctx = personalCtx;
@@ -58,8 +64,21 @@ public class RequestOptions {
         return this;
     }
 
+    public RequestOptions failSilently() {
+        failSilently = true;
+        return this;
+    }
+
+    public boolean shouldFailSilently() {
+        return failSilently;
+    }
+
     public RequestOptions withRequestOptions(TwitchRequestOptions options) {
         this.options = options;
+        // Also override context here for better compatibility
+        if (this.ctx == null && options.getPersonalCtx() != null) {
+            this.ctx = options.getPersonalCtx();
+        }
         return this;
     }
 
@@ -80,10 +99,12 @@ public class RequestOptions {
         }
 
         if (ctx != null) {
-            if (!v5Header) {
-                request.header("Authorization", "Bearer " + ctx.getAccessToken());
-            } else {
+            if (v5Header) {
+                request.getHeaders().remove("Authorization");
                 request.header("Authorization", "OAuth " + ctx.getAccessToken());
+            } else {
+                request.getHeaders().remove("Authorization");
+                request.header("Authorization", "Bearer " + ctx.getAccessToken());
             }
         }
 
@@ -113,7 +134,8 @@ public class RequestOptions {
     }
 
     RejectionSolveMethod handleRejection(RejectionReason reason) {
-        if (retries >= maxRetries) {
+        if (retries >= maxRetries || !shouldRetry) {
+            logger.info("Failed to refresh token using provided context. Max retries reached.");
             return RejectionSolveMethod.FAIL;
         }
 
@@ -124,20 +146,27 @@ public class RequestOptions {
                     // This counts as "retry"
                     retries++;
                     return RejectionSolveMethod.RETRY;
+                } else {
+                    logger.info("Failed to refresh token using provided context. Is the connection revoked?");
                 }
+            } else if (options != null && options.getPersonalCtx() != null) {
+                if (ctx.autoRefresh()) {
+                    retries++;
+                    return RejectionSolveMethod.RETRY;
+                } else {
+                    logger.info("Failed to refresh token using provided personal/optional context. Is the connection revoked?");
+                }
+            } else {
+                logger.info("Failed to refresh token, no context provided!");
             }
+
             // Fail if problem is unauthorized but no context is supplied
             return RejectionSolveMethod.FAIL;
         }
 
         // any other fails, retry one time (temporary API issue)
-        if (shouldRetry) {
-            retries++;
-            return RejectionSolveMethod.RETRY;
-        }
-
-        // lastly, fail
-        return RejectionSolveMethod.FAIL;
+        retries++;
+        return RejectionSolveMethod.RETRY;
     }
 
     public PersonalAuthorizationContext getAuthContext() {

@@ -35,9 +35,9 @@ public class Authentication {
     }
 
     public boolean isValid(String accessToken) {
-        RestClientResponse<TokenValidationDTO> response = client.get(TokenValidationDTO.class, Constants.ID_TOKEN_VALIDATE_URL, new RequestOptions().withHeader("Authorization", "OAuth " + accessToken));
+        RestClientResponse<TokenValidationDTO> response = client.get(TokenValidationDTO.class, Constants.ID_TOKEN_VALIDATE_URL, new RequestOptions().withHeader("Authorization", "OAuth " + accessToken).dontRetry().failSilently());
 
-        if (response.getResponse() != null) {
+        if (response != null && response.getResponse() != null) {
             return response.getResponse().getLogin() != null;
         }
 

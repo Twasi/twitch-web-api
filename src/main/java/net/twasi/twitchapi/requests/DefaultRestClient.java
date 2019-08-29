@@ -97,7 +97,7 @@ public class DefaultRestClient implements RestClient {
                     }
 
                     // The token is valid but it failed anyways. Probably hit the hard limit. Fail.
-                    return handleRejection(request, clazz, options, RejectionSolveMethod.FAIL, "Rate limiting hit. Auth token provided & valid. Requests/Minute: " + result.getHeaders().getFirst("Ratelimit-Limit"), null);
+                    return handleRejection(request, clazz, options, RejectionSolveMethod.FAIL, "Rate limiting hit. Auth token provided & valid. Headers sent: " + result.getHeaders(), null);
                 }
 
                 // There was no auth token provided. Problematic :O
@@ -133,6 +133,10 @@ public class DefaultRestClient implements RestClient {
             return execute(request, clazz, options);
         }
         if (method == RejectionSolveMethod.FAIL) {
+            if (options.shouldFailSilently()) {
+                return null;
+            }
+
             // Log
             logger.severe("Request failed. URL: " + request.getUrl() + ", " + information + "\r\n" +
                     "Headers sent: " + request.getHeaders() + "\r\n" +

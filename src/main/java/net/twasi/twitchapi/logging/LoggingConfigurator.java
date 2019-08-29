@@ -8,6 +8,8 @@ public class LoggingConfigurator {
     private static boolean isConfigured = false;
 
     public static void configure() {
+        LogManager.getLogManager().reset();
+
         // Set up logging
         Logger rootLogger = LogManager.getLogManager().getLogger("");
         rootLogger.setLevel(Level.INFO);
