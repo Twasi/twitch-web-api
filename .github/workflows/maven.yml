@@ -16,4 +16,4 @@ jobs:
       - name: Build with Maven
         run: |
           sed -i "s/LIVE/${GITHUB_SHA}/g" pom.xml
-          mvn -q -B -s maven-settings.xml clean compile assembly:single deploy
+          mvn -q -B -s maven-settings.xml clean compile deploy
