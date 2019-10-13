@@ -6,15 +6,15 @@
 
     <groupId>net.twasi</groupId>
     <artifactId>twitch-web-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>LIVE</version>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -22,18 +22,9 @@
 
     <repositories>
         <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
             <id>central</id>
             <name>libs-release</name>
             <url>https://artifactory.twasi.net/artifactory/libs-release</url>
-        </repository>
-        <repository>
-            <snapshots/>
-            <id>snapshots</id>
-            <name>libs-snapshot</name>
-            <url>https://artifactory.twasi.net/artifactory/libs-snapshot</url>
         </repository>
         <repository>
             <id>jcenter</id>
@@ -62,10 +53,10 @@
     </dependencies>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>75d64b6ca878-snapshots</name>
-            <url>https://artifactory.twasi.net/artifactory/libs-snapshot-local</url>
-        </snapshotRepository>
+        <repository>
+            <id>central</id>
+            <name>libs-release-local</name>
+            <url>https://artifactory.twasi.net/artifactory/libs-release-local</url>
+        </repository>
     </distributionManagement>
 </project>
