@@ -6,7 +6,7 @@
 
     <groupId>net.twasi</groupId>
     <artifactId>twitch-web-api</artifactId>
-    <version>LIVE</version>
+    <version>1.0.0</version>
     <build>
         <plugins>
             <plugin>
@@ -24,7 +24,7 @@
         <repository>
             <id>central</id>
             <name>libs-release</name>
-            <url>https://artifactory.twasi.net/artifactory/libs-release</url>
+            <url>https://nexus.twasi.net/repository/maven-releases/</url>
         </repository>
         <repository>
             <id>jcenter</id>
@@ -56,7 +56,7 @@
         <repository>
             <id>central</id>
             <name>libs-release-local</name>
-            <url>https://artifactory.twasi.net/artifactory/libs-release-local</url>
+            <url>https://nexus.twasi.net/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 </project>
