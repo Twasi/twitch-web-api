@@ -80,7 +80,7 @@ public class Users {
         }
 
         public UserDTO getCurrentUser() {
-            RequestOptions options = new RequestOptions().withPersonalAuth(personalCtx);
+            RequestOptions options = new RequestOptions().withPersonalAuth(personalCtx).withClientId(ctx);
 
             RestClientResponse<HelixResponseWrapper<UserDTO>> response = client.get(UserDTO.WrappedUserDTO.class, Constants.HELIX_USERS, options);
 
@@ -91,7 +91,8 @@ public class Users {
             RequestOptions options = new RequestOptions()
                     .withPersonalAuth(personalCtx)
                     .withQueryString("from_id", fromUserId)
-                    .withQueryString("to_id", personalCtx.getTwitchId());
+                    .withQueryString("to_id", personalCtx.getTwitchId())
+                    .withClientId(ctx);
 
             RestClientResponse<HelixResponseWrapper<UserFollowDTO>> response = client.get(UserFollowDTO.WrappedUserFollowDTO.class, Constants.HELIX_USERS_FOLLOW, options);
 

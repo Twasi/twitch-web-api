@@ -70,6 +70,11 @@ public class DefaultRestClient implements RestClient {
             if (result.getStatus() >= 200 && result.getStatus() <= 299) {
                 // Request succeeded!
                 RestClientResponse<T> response = new RestClientResponse<>(result.getBody());
+
+                if (result.getBody() == null) {
+                    throw new UnirestException("Returned unexpected empty body.");
+                }
+
                 return response;
             }
 
