@@ -13,6 +13,8 @@ import net.twasi.twitchapi.requests.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
+
 public class UsersTest {
 
     @Test
@@ -36,6 +38,7 @@ public class UsersTest {
         Assertions.assertEquals("offlineImageUrl", user.getOfflineImageUrl());
         Assertions.assertEquals(1337, user.getViewCount());
         Assertions.assertEquals("login@provider.com", user.getEmail());
+        Assertions.assertEquals(1477224000000d, user.getCreatedAt().getTime());
     }
 
     @Test

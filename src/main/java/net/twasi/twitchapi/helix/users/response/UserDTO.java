@@ -3,6 +3,8 @@ package net.twasi.twitchapi.helix.users.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.twasi.twitchapi.helix.HelixResponseWrapper;
 
+import java.util.Date;
+
 public class UserDTO {
     private String id;
 
@@ -26,6 +28,9 @@ public class UserDTO {
 
     @JsonProperty("view_count")
     private int viewCount;
+
+    @JsonProperty("created_at")
+    private Date createdAt;
 
     private String email;
 
@@ -67,6 +72,10 @@ public class UserDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public static class WrappedUserDTO extends HelixResponseWrapper<UserDTO> {
